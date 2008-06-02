@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'hpricot'
+require 'open-uri'
+require 'htmldog'
+
+include HTMLDog
+
+# checks for at least one arg
+if ARGV.size.zero?
+  puts <<-END_OF_STRING
+
+Example Usage: h float
+  where "float" is a CSS property,
+  or it can be an HTML tag like "div".
+Only one search item at a time (for now).
+
+  END_OF_STRING
+  exit 1
+end
+
+# deals with namespacing based on the q arg
+q = ARGV.shift
+if HTML_TAGS.include?(q)
+  name_space = "htmltags"
+elsif CSS_PROPERTIES.include?(q)
+  name_space = "cssproperties"
+else
+  puts <<-END_OF_STRING
+#{q}: No results found.
+  Maybe you mispelled it or it doesn't exist.
+  htmldog.com is used as the data source,
+  so if they don't have it, I can't find it.
+
+  END_OF_STRING
+  exit 1
+end
+
+# is the q one of the headings?
+# on htmldog.com all of the h1-h6 tags are on one page
+# h1h2h3h4h5h6
+q = HEADINGS_URL if HEADINGS.include?(q)
+
+# gets htmldog.com page for q tag or property
+doc = Hpricot(open("http://htmldog.com/reference/#{name_space}/#{q}/"))
+
+# chews up the html and prepares slimmed down version
+intro = (doc/"#intro")
+antiintro = (doc/"#ai2").inner_html
+
+# header output
+(intro/:p).each do |p|
+  puts p.inner_text
+end
+
+# possible values/attributes
+title = (doc/"#c1").inner_html
+h2s = (doc/"div[@id=ai2]/h2")
+uls = (doc/"div[@id=ai2]/ul")
+example = (doc/"div[@id=ai2]/pre/code")
+
+h2s.zip(uls).each do |h2, ul|
+  puts h2.inner_text
+  
+  if ul
+    ul.search("/li").each do |li|
+      puts "  * #{li.inner_text}" unless li.inner_text == "Common attributes"
+    end
+  else
+    puts example.first.inner_text
+  end
+end
