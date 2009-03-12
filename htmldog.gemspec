@@ -2,11 +2,10 @@
 
 Gem::Specification.new do |s|
   s.name = %q{htmldog}
-  s.version = "1.0.0.200903121440"
+  s.version = "1.0.0.200903121450"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["shane becker"]
-  s.cert_chain = ["/Users/sb/.gem/gem-public_cert.pem"]
   s.date = %q{2008-11-08}
   s.default_executable = %q{htmldog}
   s.description = %q{* A command line tool for html tag / css property documentation using htmldog.com as the data source.}
@@ -20,7 +19,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{htmldog}
   s.rubygems_version = %q{1.3.1}
-  s.signing_key = %q{/Users/sb/.gem/gem-private_key.pem}
   s.summary = %q{* A command line tool for html tag / css property documentation using htmldog.com as the data source.}
   s.test_files = ["test/test_htmldog.rb"]
 
