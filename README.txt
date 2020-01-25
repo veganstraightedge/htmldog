@@ -1,5 +1,6 @@
 = htmldog
 
+
 * http://theresistancearmy.com/gems/htmldog
 * http://rubyforge.org/projects/htmldog
 
@@ -14,7 +15,7 @@
 == SYNOPSIS:
 
   htmldog img
-  
+
   Image.
   Note: When an image is used as a link, many browsers will show a border around the image. To get rid of this you should use CSS (border: 0).
   Required Attributes
